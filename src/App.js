@@ -23,8 +23,6 @@ class BooksApp extends React.Component {
         }))
       })
   }
-  
-  
   render() {
     console.log(this.state.books)
     const bookShelf = (arr , shelf) => {
@@ -48,11 +46,11 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       { bookShelf(this.state.books ,"currentlyReading").map((book) =>(
                         
-                         <li key={book.title}>
+                         <li key={book.id}>
                         <div className="book">
                           <div className="book-top">
                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                              <BookShelfChanger title={book.title}/>
+                              <BookShelfChanger shelf={book.shelf} book={book}/>
                           </div>
                           <div className="book-title">{book.title}</div>
                           <div className="book-authors">{book.authors}</div>
@@ -74,7 +72,7 @@ class BooksApp extends React.Component {
                        <div className="book">
                          <div className="book-top">
                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                             <BookShelfChanger title={book.title}/>
+                             <BookShelfChanger  shelf={book.shelf} book={book}/>
                          </div>
                          <div className="book-title">{book.title}</div>
                          <div className="book-authors">{book.authors}</div>
@@ -95,7 +93,7 @@ class BooksApp extends React.Component {
                        <div className="book">
                          <div className="book-top">
                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                             <BookShelfChanger title={book.title}/>
+                             <BookShelfChanger  shelf={book.shelf} book={book}/>
                          </div>
                          <div className="book-title">{book.title}</div>
                          <div className="book-authors">{book.authors}</div>
