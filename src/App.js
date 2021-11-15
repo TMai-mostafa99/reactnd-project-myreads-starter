@@ -4,6 +4,8 @@ import './App.css'
 import { Route } from 'react-router-dom'
 import SearchBooks  from './SearchBooks'
 import BookShelfChanger from './BookShelfChanger'
+import { Link } from 'react-router-dom'
+
 
 class BooksApp extends React.Component {
   state = {
@@ -13,101 +15,87 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    books : [],
-  }
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
+  } 
+ 
   componentDidMount() {
-   BooksAPI.getAll()
-      .then((books) => {
-        this.setState(() => ({
-          books
-        }))
-      })
+    this.getAllbooks()
   }
+  getAllbooks(){
+    BooksAPI.getAll()
+    .then((books) => {
+      let currentlyReading = books ? books.filter(book => book.shelf == "currentlyReading") : null
+      let wantToRead = books ? books.filter(book => book.shelf == "wantToRead") : null
+      let read = books ? books.filter(book => book.shelf == "read") : null
+
+      this.setState({currentlyReading, wantToRead , read })
+    })
+
+  }
+  //reload if shelf changes to view immediate change without reloading
+  changeBookShelf(book , shelf){
+    console.log(book.title , " the shelf is ",shelf)
+    BooksAPI.update(book ,shelf).then(()=>
+    this.getAllbooks()
+    )
+  }
+//to avoid redundancy
+renderShelf(books , title){
+
+  return (
+    <div className="bookshelf">
+    <h2 className="bookshelf-title">{title}</h2>
+    <div className="bookshelf-books">
+      <ol className="books-grid">
+        { books.map((book) =>(
+           <li key={book.id}>
+          <div className="book">
+            <div className="book-top">
+              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
+                <BookShelfChanger 
+                book={book}
+                changeBookShelf={this.changeBookShelf.bind(this)}/>
+            </div>
+            <div className="book-title">{book.title}</div>
+            <div className="book-authors">{book.authors}</div>
+          </div>
+        </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+  )
+
+
+
+}
+
   render() {
-    console.log(this.state.books)
-    const bookShelf = (arr , shelf) => {
-      return arr.filter(el => el.shelf == shelf )
-    }
+    const { currentlyReading, wantToRead, read } = this.state;
+
     return (
+      
       <div className="app">
         <Route exact path='/search' render = {() => (
           <SearchBooks/>)}/>
         <Route exact path='/' render = {() => (
-        
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
               <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      { bookShelf(this.state.books ,"currentlyReading").map((book) =>(
-                        
-                         <li key={book.id}>
-                        <div className="book">
-                          <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                              <BookShelfChanger shelf={book.shelf} book={book}/>
-                          </div>
-                          <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
-                        </div>
-                      </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
-
-
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    { bookShelf(this.state.books , "wantToRead").map((book) =>(
-                        
-                        <li key={book.title}>
-                       <div className="book">
-                         <div className="book-top">
-                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                             <BookShelfChanger  shelf={book.shelf} book={book}/>
-                         </div>
-                         <div className="book-title">{book.title}</div>
-                         <div className="book-authors">{book.authors}</div>
-                       </div>
-                     </li>
-                     ))}
-                      
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    { bookShelf(this.state.books , "read").map((book) =>(
-                        
-                        <li key={book.title}>
-                       <div className="book">
-                         <div className="book-top">
-                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                             <BookShelfChanger  shelf={book.shelf} book={book}/>
-                         </div>
-                         <div className="book-title">{book.title}</div>
-                         <div className="book-authors">{book.authors}</div>
-                       </div>
-                     </li>
-                     ))}
-                      
-                    </ol>
-                  </div>
-                </div>
+                {this.renderShelf(currentlyReading , 'Currently Reading')}
+                {this.renderShelf(wantToRead , ' Want to Read')}
+                {this.renderShelf(read , 'Read')}
               </div>
             </div>
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+            <Link
+            to='/search'
+            className='go-search'> search </Link>
             </div>
           </div>
 
