@@ -19,18 +19,14 @@ class SearchBooks extends Component{
     //console.log(query)
     if(query !== ''){ // avoid error after clearing query
     BooksAPI.search(query).then(searchedBooks => searchedBooks ? this.setState({searchedBooks}): [])
+    console.log(this.state.searchedBooks)
   }
 
-  }
-  updateBookShelf(book , shelf){
-    BooksAPI.update(book,shelf).then(
-      this.props.getAllbooks(),
-     console.log("shelf updated :", book ," to shelf : ", shelf)  
-    ).catch(()=> " something went wrong :(")
   }
 
   renderSearch(){
     const {query, searchedBooks} = this.state;
+    const {changeBookShelf , books} = this.props;
     if(query){
       return searchedBooks.error ?
        <div> No results found</div>
@@ -40,7 +36,8 @@ class SearchBooks extends Component{
        <div className="book">
          <div className="book-top">
            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-             <BookShelfChanger changeBookShelf={this.updateBookShelf.bind(this)} book={book}/>
+             <BookShelfChanger books={books} changeBookShelf={changeBookShelf.bind(this)} book={book}/>
+             
          </div>
          <div className="book-title">{book.title}</div>
          <div className="book-authors">{book.authors}</div>
@@ -54,6 +51,7 @@ class SearchBooks extends Component{
 
 
 render(){
+  
     return (
         <div className="search-books">
         <div className="search-books-bar">

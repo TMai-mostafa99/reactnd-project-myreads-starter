@@ -9,15 +9,10 @@ import { Link } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     currentlyReading: [],
     wantToRead: [],
-    read: []
+    read: [],
+    books: [] //to save state of books for search page
   } 
  
   componentDidMount() {
@@ -31,6 +26,7 @@ class BooksApp extends React.Component {
       let read = books ? books.filter(book => book.shelf == "read") : null
 
       this.setState({currentlyReading, wantToRead , read })
+      this.setState({books})
       console.log(currentlyReading,wantToRead,read)
     })
 
@@ -39,7 +35,8 @@ class BooksApp extends React.Component {
   changeBookShelf(book , shelf){
     console.log(book.title , " the shelf is ",shelf)
     BooksAPI.update(book ,shelf).then(()=>
-    this.getAllbooks()
+    this.getAllbooks(),
+    console.log("changeBookShelf function")
     )
   }
 //to avoid redundancy
@@ -56,6 +53,7 @@ renderShelf(books , title){
             <div className="book-top">
               <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail ? book.imageLinks.thumbnail : null })`  }}></div>
                 <BookShelfChanger 
+                books={this.state.books}
                 book={book}
                 changeBookShelf={this.changeBookShelf.bind(this)}/>
             </div>
@@ -80,7 +78,9 @@ renderShelf(books , title){
       
       <div className="app">
         <Route exact path='/search' render = {() => (
-          <SearchBooks getAllbooks={this.getAllbooks.bind(this)}/>)}/>
+          <SearchBooks  changeBookShelf={this.changeBookShelf.bind(this)}
+                        books={this.state.books}
+          />)}/>
         <Route exact path='/' render = {() => (
           <div className="list-books">
             <div className="list-books-title">
