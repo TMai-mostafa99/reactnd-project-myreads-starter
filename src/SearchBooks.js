@@ -19,7 +19,7 @@ class SearchBooks extends Component{
     //console.log(query)
     if(query !== ''){ // avoid error after clearing query
     BooksAPI.search(query).then(searchedBooks => searchedBooks ? this.setState({searchedBooks}): [])
-    console.log(this.state.searchedBooks)
+    //console.log(this.state.searchedBooks)
   }
 
   }

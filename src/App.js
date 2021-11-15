@@ -33,10 +33,10 @@ class BooksApp extends React.Component {
   }
   //reload if shelf changes to view immediate change without reloading
   changeBookShelf(book , shelf){
-    console.log(book.title , " the shelf is ",shelf)
+   // console.log(book.title , " the shelf is ",shelf)
     BooksAPI.update(book ,shelf).then(()=>
     this.getAllbooks(),
-    console.log("changeBookShelf function")
+   // console.log("changeBookShelf function")
     )
   }
 //to avoid redundancy
