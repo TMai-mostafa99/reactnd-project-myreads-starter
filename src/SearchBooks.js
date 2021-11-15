@@ -16,7 +16,7 @@ class SearchBooks extends Component{
       query: query
     }))
     // handle empty query
-    console.log(query)
+    //console.log(query)
     if(query !== ''){ // avoid error after clearing query
     BooksAPI.search(query).then(searchedBooks => searchedBooks ? this.setState({searchedBooks}): [])
   }
@@ -24,7 +24,8 @@ class SearchBooks extends Component{
   }
   updateBookShelf(book , shelf){
     BooksAPI.update(book,shelf).then(
-     // console.log("shelf updated")  
+      this.props.getAllbooks(),
+     console.log("shelf updated :", book ," to shelf : ", shelf)  
     ).catch(()=> " something went wrong :(")
   }
 

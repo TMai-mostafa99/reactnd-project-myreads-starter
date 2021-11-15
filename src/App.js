@@ -54,7 +54,7 @@ renderShelf(books , title){
            <li key={book.id}>
           <div className="book">
             <div className="book-top">
-              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
+              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail ? book.imageLinks.thumbnail : null })`  }}></div>
                 <BookShelfChanger 
                 book={book}
                 changeBookShelf={this.changeBookShelf.bind(this)}/>
@@ -80,7 +80,7 @@ renderShelf(books , title){
       
       <div className="app">
         <Route exact path='/search' render = {() => (
-          <SearchBooks/>)}/>
+          <SearchBooks getAllbooks={this.getAllbooks.bind(this)}/>)}/>
         <Route exact path='/' render = {() => (
           <div className="list-books">
             <div className="list-books-title">
