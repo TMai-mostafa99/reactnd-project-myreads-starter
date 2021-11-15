@@ -5,6 +5,7 @@ import BookShelfChanger from './BookShelfChanger'
 
 
 class SearchBooks extends Component{
+ 
   state = {
     query: '',
     searchedBooks: []
@@ -27,11 +28,16 @@ class SearchBooks extends Component{
   renderSearch(){
     const {query, searchedBooks} = this.state;
     const {changeBookShelf , books} = this.props;
+
     if(query){
-      return searchedBooks.error ?
-       <div> No results found</div>
-       :searchedBooks.map((book) =>{
+     
+      if(searchedBooks.error){
+      return <div> No results found</div>}
+       else{
+         console.log(searchedBooks)
+        return searchedBooks.map((book) =>{
          return(  
+           
         <li key={book.id}>
        <div className="book">
          <div className="book-top">
@@ -44,6 +50,7 @@ class SearchBooks extends Component{
        </div>
      </li>
        )})
+      }
 
     } 
   }
