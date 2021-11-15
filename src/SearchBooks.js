@@ -9,26 +9,50 @@ class SearchBooks extends Component{
     query: '',
     searchedBooks: []
   }
-
+ 
   updateQuery = (query) => {
 
     this.setState(() => ({
-      query: query.trim()
+      query: query
     }))
     // handle empty query
+    console.log(query)
+    if(query !== ''){ // avoid error after clearing query
     BooksAPI.search(query).then(searchedBooks => searchedBooks ? this.setState({searchedBooks}): [])
+  }
 
   }
   updateBookShelf(book , shelf){
     BooksAPI.update(book,shelf).then(
-      console.log("shelf updated")
+     // console.log("shelf updated")  
     ).catch(()=> " something went wrong :(")
   }
 
+  renderSearch(){
+    const {query, searchedBooks} = this.state;
+    if(query){
+      return searchedBooks.error ?
+       <div> No results found</div>
+       :searchedBooks.map((book) =>{
+         return(  
+        <li key={book.id}>
+       <div className="book">
+         <div className="book-top">
+           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
+             <BookShelfChanger changeBookShelf={this.updateBookShelf.bind(this)} book={book}/>
+         </div>
+         <div className="book-title">{book.title}</div>
+         <div className="book-authors">{book.authors}</div>
+       </div>
+     </li>
+       )})
+
+    } 
+  }
+
+
 
 render(){
-  const {query, searchedBooks} = this.state;
-  
     return (
         <div className="search-books">
         <div className="search-books-bar">
@@ -42,23 +66,7 @@ render(){
             />
                   <div className="search-books-results">
                     <ol className="books-grid">
-                      { query ?
-                      searchedBooks.map((book) =>(  
-                        <li key={book.id}>
-                       <div className="book">
-                         <div className="book-top">
-                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`  }}></div>
-                             <BookShelfChanger changeBookShelf={this.updateBookShelf.bind(this)} book={book}/>
-                         </div>
-                         <div className="book-title">{book.title}</div>
-                         <div className="book-authors">{book.authors}</div>
-                       </div>
-                     </li>
-                     ))
-                         
-                        :<div> No results found </div>
-                        
-                       }
+                      { this.renderSearch() }
                     </ol>
                   </div>
           </div>

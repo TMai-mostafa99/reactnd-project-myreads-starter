@@ -31,6 +31,7 @@ class BooksApp extends React.Component {
       let read = books ? books.filter(book => book.shelf == "read") : null
 
       this.setState({currentlyReading, wantToRead , read })
+      console.log(currentlyReading,wantToRead,read)
     })
 
   }
