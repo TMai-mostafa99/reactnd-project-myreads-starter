@@ -14,14 +14,15 @@ body, .app {
 
 .list-books-title {
   padding: 10px 0;
-  background: #2e7c31;
+  background: #1b3a8f;
   text-align: center;
 }
 
 .list-books-title h1 {
-  font-weight: 400;
+  font-weight: 500;
   margin: 0;
   color: white;
+  font-family: 'Brush Script MT', cursive;
 }
 
 .list-books-content {
@@ -41,6 +42,7 @@ body, .app {
 
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
+  font-family: 'Brush Script MT', cursive;
 }
 
 .bookshelf-books {
@@ -58,7 +60,7 @@ body, .app {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #1b3a8f;
   background-image: url('./icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -72,7 +74,7 @@ body, .app {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #2e7d32;
+  background: #1b3a8f;
   background-image: url('./icons/add.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -83,7 +85,7 @@ body, .app {
 }
 
 .open-search button:hover {
-  background-color: rgb(0, 102, 0);
+  background-color: #1b3a8f;
 }
 
 
@@ -102,7 +104,7 @@ body, .app {
 .search-books-input-wrapper {
   flex: 1;
   
-  background: rgb(153, 238, 171);
+  background: rgb(153, 225, 238);
   position: relative;
   overflow-y: scroll;
   width: 1000px;
@@ -189,7 +191,7 @@ button:active {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: #1b3a8f;
   background-image: url('./icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
