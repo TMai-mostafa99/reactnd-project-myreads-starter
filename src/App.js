@@ -51,7 +51,7 @@ renderShelf(books , title){
            <li key={book.id}>
           <div className="book">
             <div className="book-top">
-              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail ? book.imageLinks.thumbnail : null })`  }}></div>
+              <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks !== undefined? book.imageLinks.thumbnail : null })`  }}></div>
                 <BookShelfChanger 
                 books={this.state.books}
                 book={book}
