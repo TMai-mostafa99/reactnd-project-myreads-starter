@@ -25,9 +25,8 @@ class BooksApp extends React.Component {
       let wantToRead = books ? books.filter(book => book.shelf == "wantToRead") : null
       let read = books ? books.filter(book => book.shelf == "read") : null
 
-      this.setState({currentlyReading, wantToRead , read })
-      this.setState({books})
-      console.log(currentlyReading,wantToRead,read)
+      this.setState({currentlyReading, wantToRead , read , books })
+      //console.log(currentlyReading,wantToRead,read)
     })
 
   }
@@ -58,7 +57,7 @@ renderShelf(books , title){
                 changeBookShelf={this.changeBookShelf.bind(this)}/>
             </div>
             <div className="book-title">{book.title}</div>
-            <div className="book-authors">{book.authors}</div>
+            <div className="book-authors">{book.authors ? Object.values(book.authors).join(' , ') : book.authors}</div>
           </div>
         </li>
         ))}

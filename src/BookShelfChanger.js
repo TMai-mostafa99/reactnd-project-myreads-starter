@@ -16,12 +16,12 @@ class BookShelfChanger extends Component {
         else
        currentShelf='none'
     
-     console.log("title: ",book.title,"shelf: ",book.shelf , "current shelf: ", currentShelf)
+     //console.log("title: ",book.title,"shelf: ",book.shelf , "current shelf: ", currentShelf)
        
         return(
             <div className="book-shelf-changer">
             <select value={ currentShelf}  onChange={(event) => changeBookShelf(book ,event.target.value)} >
-              <option  value="none" disabled >Move to...</option>
+              <option  disabled >Move to...</option>
               <option  value="currentlyReading">Currently Reading</option>
               <option  value="wantToRead">Want to Read</option>
               <option  value="read">Read</option>

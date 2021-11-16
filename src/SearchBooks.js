@@ -18,7 +18,8 @@ class SearchBooks extends Component{
     }))
     // handle empty query
     //console.log(query)
-    if(query !== ''){ // avoid error after clearing query
+    if(query.trim() !== ''){ // avoid error after clearing query & empty searches
+      //console.log("search made")
     BooksAPI.search(query).then(searchedBooks => searchedBooks ? this.setState({searchedBooks}): [])
     //console.log(this.state.searchedBooks)
   }
@@ -34,7 +35,7 @@ class SearchBooks extends Component{
       if(searchedBooks.error){
       return <div> No results found</div>}
        else{
-         console.log(searchedBooks)
+         //console.log(searchedBooks)
         return searchedBooks.map((book) =>{
          return(  
            
@@ -46,7 +47,7 @@ class SearchBooks extends Component{
              
          </div>
          <div className="book-title">{book.title}</div>
-         <div className="book-authors">{book.authors}</div>
+         <div className="book-authors">{book.authors ? Object.values(book.authors).join(' , ') : book.authors}</div>
        </div>
      </li>
        )})
